@@ -16,6 +16,13 @@ public class Board {
 		return false;
 	}
 	
-	
+	public boolean checkWin(char val) {
+		for(int a = 0; a < SIZE; a++) {
+			for(int b = 0; b < SIZE; b++) {
+				
+			}
+		}
+		return false;
+	}
 	
 }

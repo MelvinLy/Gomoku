@@ -16,8 +16,64 @@ public class Board {
 		return false;
 	}
 	
+	public boolean canGoLeft(int row, int col) {
+		if(col + 1 - 5 >= 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean canGoRight(int row, int col) {
+		if(col + 1 + 5 <= SIZE) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean canGoUp(int row, int col) {
+		if(row + 1 - 5 >= 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean canGoDown(int row, int col) {
+		if(row + 1 + 5 <= SIZE) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean canGoUpLeft(int row, int col) {
+		if(canGoLeft(row, col) && canGoUp(row, col)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean canGoUpRight(int row, int col) {
+		if(canGoUp(row, col) && canGoRight(row, col)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean canGoDownLeft(int row, int col) {
+		if(canGoDown(row, col) && canGoLeft(row, col)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean canGoDownRight(int row, int col) {
+		if(canGoDown(row, col) && canGoRight(row, col)) {
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean hasFive(int row, int col, int val) {
-		
+
 		return false;
 	}
 	

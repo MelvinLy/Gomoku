@@ -16,10 +16,19 @@ public class Board {
 		return false;
 	}
 	
+	public boolean hasFive(int row, int col, int val) {
+		
+		return false;
+	}
+	
 	public boolean checkWin(char val) {
 		for(int a = 0; a < SIZE; a++) {
 			for(int b = 0; b < SIZE; b++) {
-				
+				if(arrayRep[a][b] == val) {
+					if(hasFive(a, b, val)) {
+						return true;
+					}
+				}
 			}
 		}
 		return false;

@@ -1,5 +1,6 @@
 public class Board {
 	final static int SIZE = 19;
+	final static int WINSIZE = 5;
 	private char[][] arrayRep = new char[SIZE][SIZE];
 	
 	public boolean setChar(int row, int col, char val) {
@@ -17,28 +18,28 @@ public class Board {
 	}
 	
 	public boolean canGoLeft(int row, int col) {
-		if(col + 1 - 5 >= 0) {
+		if(col + 1 - WINSIZE >= 0) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean canGoRight(int row, int col) {
-		if(col + 1 + 5 <= SIZE) {
+		if(col + 1 + WINSIZE <= SIZE) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean canGoUp(int row, int col) {
-		if(row + 1 - 5 >= 0) {
+		if(row + 1 - WINSIZE >= 0) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean canGoDown(int row, int col) {
-		if(row + 1 + 5 <= SIZE) {
+		if(row + 1 + WINSIZE <= SIZE) {
 			return true;
 		}
 		return false;
@@ -73,7 +74,7 @@ public class Board {
 	}
 	
 	public boolean hasFive(int row, int col, int val) {
-
+	
 		return false;
 	}
 	

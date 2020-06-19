@@ -1,13 +1,13 @@
 public class Board {
 	final static int SIZE = 19;
 	final static int WINSIZE = 5;
-	private char[][] arrayRep = new char[SIZE][SIZE];
+	public char[][] arrayRep = new char[SIZE][SIZE];
 	
 	public boolean setChar(int row, int col, char val) {
-		if(val != 'X' || val != 'O') {
+		if(val != 'X' && val != 'O') {
 			return false;
 		}
-		if(row >= 0 && row <= 18 && col >= 0 && col <= 18) {
+		if(row >= 0 && row <= SIZE - 1 && col >= 0 && col <= SIZE - 1) {
 			if(arrayRep[row][col] != 0) {
 				return false;
 			}

@@ -73,8 +73,80 @@ public class Board {
 		return false;
 	}
 	
-	public boolean hasFive(int row, int col, int val) {
+	public boolean leftWin(int row, int col, char val) {
+		for(int a = 0; a < WINSIZE; a++) {
+			if(arrayRep[row][col - 1] != val) {
+				return false;
+			}
+		}
+		return true;
+	}
 	
+	public boolean rightWin(int row, int col, char val) {
+		for(int a = 0; a < WINSIZE; a++) {
+			if(arrayRep[row][col + a] != val) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean upWin(int row, int col, char val) {
+		for(int a = 0; a < WINSIZE; a++) {
+			if(arrayRep[row - a][col] != val) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean downWin(int row, int col, char val) {
+		for(int a = 0; a < WINSIZE; a++) {
+			if(arrayRep[row + a][col] != val) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean upLeftWin(int row, int col, char val) {
+		for(int a = 0; a < WINSIZE; a++) {
+			if(arrayRep[row - a][col - a] != val) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean upRightWin(int row, int col, char val) {
+		for(int a = 0; a < WINSIZE; a++) {
+			if(arrayRep[row - a][col + a] != val) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean downLeftWin(int row, int col, char val) {
+		for(int a = 0; a < WINSIZE; a++) {
+			if(arrayRep[row + a][col - a] != val) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean downRightWin(int row, int col, char val) {
+		for(int a = 0; a < WINSIZE; a++) {
+			if(arrayRep[row + a][col + a] != val) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean hasWin(int row, int col, char val) {
+		
 		return false;
 	}
 	
@@ -82,7 +154,7 @@ public class Board {
 		for(int a = 0; a < SIZE; a++) {
 			for(int b = 0; b < SIZE; b++) {
 				if(arrayRep[a][b] == val) {
-					if(hasFive(a, b, val)) {
+					if(hasWin(a, b, val)) {
 						return true;
 					}
 				}

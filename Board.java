@@ -146,7 +146,46 @@ public class Board {
 	}
 	
 	public boolean hasWin(int row, int col, char val) {
-		
+		if(canGoLeft(row, col)) {
+			if(leftWin(row, col, val)) {
+				return true;
+			}
+		}
+		if(canGoUp(row, col)) {
+			if(upWin(row, col, val)) {
+				return true;
+			}
+		}
+		if(canGoRight(row, col)) {
+			if(rightWin(row, col, val)) {
+				return true;
+			}
+		}
+		if(canGoDown(row, col)) {
+			if(downWin(row, col, val)) {
+				return true;
+			}
+		}
+		if(canGoUpLeft(row, col)) {
+			if(upLeftWin(row, col, val)) {
+				return true;
+			}
+		}
+		if(canGoUpRight(row, col)) {
+			if(upRightWin(row, col, val)) {
+				return true;
+			}
+		}
+		if(canGoDownRight(row, col)) {
+			if(downRightWin(row, col, val)) {
+				return true;
+			}
+		}
+		if(canGoDownLeft(row, col)) {
+			if(downLeftWin(row, col, val)) {
+				return true;
+			}
+		}
 		return false;
 	}
 	

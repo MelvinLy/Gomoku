@@ -19,6 +19,15 @@ public class Player {
 		return this.val;
 	}
 	
+	public char getOppVal() {
+		if(this.val == 'X') {
+			return 'O';
+		}
+		else {
+			return 'X';
+		}
+	}
+	
 	public boolean isHost() {
 		if(val == 'X') {
 			return true;

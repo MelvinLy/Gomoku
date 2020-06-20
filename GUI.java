@@ -16,6 +16,7 @@ public class GUI {
 	private boolean isTurn;
 	private String incoming;
 	private boolean success;
+	private boolean gameOver = false;
 
 	public GUI() throws InterruptedException {
 		createFrame();
@@ -85,21 +86,27 @@ public class GUI {
 									}
 								}
 							}.start();
-
 						}
 					}
-					//Guest player
+					//Connecting player
 					else {
 						try {
 							player = new Player(ipField.getText(), Integer.parseInt(portField.getText()));
 							isTurn = true;
 							success = true;
-						} catch (Exception error) {
+						}
+						catch(Exception error) {
 							System.out.println(error);
 						}
 						if(success) {
-							JPanel tmp = createGridLayout();
-							replacePanel(tmp);
+							try {
+								player.getClient().send("p2Connected");
+								JPanel tmp = createGridLayout();
+								replacePanel(tmp);
+							}
+							catch (Exception error) {
+								System.out.println(error);
+							}
 						}
 					}
 				}
@@ -156,7 +163,59 @@ public class GUI {
 
 	public void createButtons(JPanel tmp) {
 		for(int a = 0; a < Board.SIZE * Board.SIZE; a++) {
-			this.buttons[a] = new JButton();
+			this.buttons[a] = new JButton("");
+			this.buttons[a].setName(Integer.toString(a));
+			this.buttons[a].addMouseListener(new MouseListener() {
+				public void mouseClicked(MouseEvent e) {
+					JButton currentButton = (JButton) e.getSource();
+					if(!gameOver) {
+						if(!isServer) {
+							if(isTurn) {
+								if(currentButton.getText().equals("")) {
+									currentButton.setText(Character.toString(player.getVal()));
+									int index = Integer.parseInt(currentButton.getName());
+									board.canGoDown(index / Board.SIZE, index % Board.SIZE);
+									if(board.checkWin(player.getVal())) {
+										JFrame winMessage = new JFrame();
+										winMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+										winMessage.setSize(500, 500);
+										JPanel p = new JPanel();
+										JLabel l = new JLabel("You won!");
+										p.add(l);
+										winMessage.add(p);
+										winMessage.setVisible(true);
+										gameOver = true;
+									}
+									try {
+										player.getClient().send(currentButton.getName());
+									}
+									catch (Exception error) {
+										System.out.println(error);
+									}
+									try {
+										incoming = player.getClient().receive();
+									}
+									catch (Exception error) {
+										System.out.println(error);
+									}
+									isTurn = false;
+								}
+							}
+						}
+						else {
+
+						}
+					}
+				}
+
+				public void mousePressed(MouseEvent e) {}
+
+				public void mouseReleased(MouseEvent e) {}
+
+				public void mouseEntered(MouseEvent e) {}
+
+				public void mouseExited(MouseEvent e) {}
+			});
 			tmp.add(this.buttons[a]);
 		}
 	}
@@ -166,10 +225,6 @@ public class GUI {
 			return buttons[row * Board.SIZE + col];
 		}
 		return null;
-	}
-
-	public static void main(String args[]) throws InterruptedException {
-		GUI g = new GUI();
 	}
 
 }

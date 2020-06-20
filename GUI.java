@@ -1,9 +1,9 @@
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.concurrent.TimeUnit;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class GUI {
 	
@@ -14,18 +14,32 @@ public class GUI {
 	private JButton[] buttons;
 	
 	public GUI() throws InterruptedException {
-		createGameGUI();
-		createGridLayout();
-		createButtons();
-		enableGameGUI();
-	}
-	
-	public void setUpGUI() {
-		
+		createFrame();
+		setUpGUI();
+		//setUpGUI();
+		//createGridLayout();
+		//createButtons();
+		enableFrame();
 	}
 	
 	public static void sleep(int x) throws InterruptedException {
 		TimeUnit.SECONDS.sleep(x);
+	}
+	
+	public void setUpGUI() {
+		JLabel ipDesc = new JLabel("Host's IP (Blank if you are host)");
+		ipDesc.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JTextField ipField = new JTextField();
+		ipField.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JLabel portDesc = new JLabel("Port");
+		ipField.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		this.panel = new JPanel();
+		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
+		this.panel.add(ipDesc);
+		this.panel.add(ipField);
+		this.panel.add(portDesc);
+		this.frame.add(panel);
 	}
 	
 	public void replacePanel(JPanel newPanel) {
@@ -35,13 +49,13 @@ public class GUI {
 		frame.repaint();
 	}
 	
-	public void enableGameGUI() {
+	public void enableFrame() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1000, 750);
 		frame.setVisible(true);
 	}
 	
-	public void createGameGUI() {
+	public void createFrame() {
 		this.board = new Board();
 		this.frame = new JFrame();
 	}

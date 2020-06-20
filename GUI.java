@@ -1,4 +1,6 @@
 import java.awt.GridLayout;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -8,6 +10,7 @@ public class GUI {
 	private Player player;
 	private JFrame frame;
 	private JPanel panel;
+	private JButton[] buttons;
 	
 	public GUI() {
 		this.board = new Board();
@@ -21,6 +24,7 @@ public class GUI {
 	public void createGridLayout() {
 		this.panel = new JPanel();
 		this.panel.setLayout(new GridLayout(Board.SIZE, Board.SIZE));
+		this.buttons = new JButton[Board.SIZE * Board.SIZE];
 		this.frame.add(panel);
 		//Add some buttons in array to be accessed
 	}

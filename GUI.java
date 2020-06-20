@@ -13,6 +13,7 @@ public class GUI {
 	private JPanel panel;
 	private JButton[] buttons;
 	private boolean isServer;
+	private boolean isTurn;
 	
 	public GUI() throws InterruptedException {
 		createFrame();
@@ -56,20 +57,21 @@ public class GUI {
 					if(isServer) {
 						try {
 							player = new Player(Integer.parseInt(portField.getText()));
+							isTurn = false;
 							success = true;
 						}
 						catch(Exception error) {
 							System.out.println(error);
 						}
 						if(success) {
-							JPanel tmp = createGridLayout();
-							replacePanel(tmp);
+							
 						}
 					}
-					//Guest palyer
+					//Guest player
 					else {
 						try {
 							player = new Player(ipField.getText(), Integer.parseInt(portField.getText()));
+							isTurn = true;
 							success = true;
 						} catch (Exception error) {
 							System.out.println(error);

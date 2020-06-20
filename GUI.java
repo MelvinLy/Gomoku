@@ -51,17 +51,21 @@ public class GUI {
 					if(ipField.getText().equals("")) {
 						isServer = true;
 					}
+					boolean success = false;
 					if(isServer) {
 						try {
 							player = new Player(Integer.parseInt(portField.getText()));
+							success = true;
 						}
 						catch(Exception error) {
 							System.out.println(error);
 						}
+						
 					}
 					else {
 						try {
 							player = new Player(ipField.getText(), Integer.parseInt(portField.getText()));
+							success = true;
 						} catch (Exception error) {
 							System.out.println(error);
 						}

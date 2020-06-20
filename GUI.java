@@ -150,13 +150,32 @@ public class GUI {
 		frame.invalidate();
 		frame.validate();
 		frame.repaint();
+		//Guest player
 		if(!isServer) {
 			new Thread() {
 				public void run() {	
 					while(true) {
+						System.out.println("CLIENT LOOP");
 						if(!isTurn) {
 							try {
+								System.out.println("LISTENING AS CLIENT");
 								incoming = player.getClient().receive();
+								System.out.println("HEARD AS CLIENT");
+								int index = Integer.parseInt(incoming);
+								buttons[index].setText(Character.toString(player.getOppVal()));
+								board.arrayRep[index / Board.SIZE][index % Board.SIZE] = player.getOppVal();
+								if(board.checkWin(player.getOppVal())) {
+									JFrame winMessage = new JFrame();
+									winMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+									winMessage.setSize(500, 500);
+									JPanel p = new JPanel();
+									JLabel l = new JLabel("You lost!");
+									p.add(l);
+									winMessage.add(p);
+									winMessage.setVisible(true);
+									gameOver = true;
+									break;
+								}
 								isTurn = true;
 							}
 							catch (Exception error) {
@@ -167,13 +186,17 @@ public class GUI {
 				}
 			}.start();
 		}
+		//Host player
 		else {
 			new Thread() {
 				public void run() {
 					while(true) {
+						System.out.println("SERVER LOOP");
 						if(!isTurn) {
 							try {
+								System.out.println("LISTENING AS SERVER");
 								incoming = player.getServer().listen();
+								System.out.println("HEARD AS SERVER");
 								int index = Integer.parseInt(incoming);
 								buttons[index].setText(Character.toString(player.getOppVal()));
 								board.arrayRep[index / Board.SIZE][index % Board.SIZE] = player.getOppVal();
@@ -228,7 +251,7 @@ public class GUI {
 				public void mouseClicked(MouseEvent e) {
 					JButton currentButton = (JButton) e.getSource();
 					if(!gameOver) {
-						if(isTurn && !isServer) {
+						if(isTurn && !isServer && !gameOver) {
 							if(currentButton.getText().equals("")) {
 								currentButton.setText(Character.toString(player.getVal()));
 								int index = Integer.parseInt(currentButton.getName());
@@ -247,7 +270,6 @@ public class GUI {
 								try {
 									player = new Player(ip, port);
 									player.getClient().send(currentButton.getName());
-									System.out.println(currentButton.getName());
 								}
 								catch (Exception error) {
 									error.printStackTrace();
@@ -255,8 +277,30 @@ public class GUI {
 								isTurn = false;
 							}
 						}
-						else if(isTurn && isServer) {
-							
+						else if(isTurn && isServer && !gameOver) {
+							if(currentButton.getText().equals("")) {
+								currentButton.setText(Character.toString(player.getVal()));
+								int index = Integer.parseInt(currentButton.getName());
+								board.arrayRep[index / Board.SIZE][index % Board.SIZE] = player.getVal();
+								if(board.checkWin(player.getVal())) {
+									JFrame winMessage = new JFrame();
+									winMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+									winMessage.setSize(500, 500);
+									JPanel p = new JPanel();
+									JLabel l = new JLabel("You won!");
+									p.add(l);
+									winMessage.add(p);
+									winMessage.setVisible(true);
+									gameOver = true;
+								}
+								try {
+									player.getServer().send(currentButton.getName());
+								}
+								catch (Exception error) {
+									error.printStackTrace();
+								}
+								isTurn = false;
+							}
 						}
 					}
 				}

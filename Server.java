@@ -27,6 +27,7 @@ public class Server {
 		this.connectionSocket.close();
 	}
 	
+	/*
 	public static void main(String[] args) throws Exception {
 		Server server = new Server(56789);
 		while(true) {
@@ -35,5 +36,5 @@ public class Server {
 			System.out.println(r);
 		}
 	}
-	
+	*/
 }

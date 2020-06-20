@@ -2,6 +2,8 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 
@@ -23,7 +25,6 @@ public class GUI {
 		/*
 		JPanel tmp = createGridLayout();
 		replacePanel(tmp);
-		System.out.println(tmp.getComponentCount());
 		*/
 	}
 	
@@ -43,7 +44,22 @@ public class GUI {
 		portField.setMaximumSize(new Dimension(500, 30));
 		portField.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JButton connect = new JButton("Connect");
+		connect.addMouseListener(new MouseListener() {
+			public void mouseClicked(MouseEvent e) {
+				//Code to connect
+			}
+			
+			public void mousePressed(MouseEvent e) {}
+
+			public void mouseReleased(MouseEvent e) {}
+
+			public void mouseEntered(MouseEvent e) {}
+			
+			public void mouseExited(MouseEvent e) {}
+		});
 		connect.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		
 		
 		this.panel = new JPanel();
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));

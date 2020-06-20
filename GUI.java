@@ -1,4 +1,5 @@
 import java.awt.GridLayout;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,12 +13,21 @@ public class GUI {
 	private JPanel panel;
 	private JButton[] buttons;
 	
-	public GUI() {
+	public GUI() throws InterruptedException {
 		createGameGUI();
 		createGridLayout();
 		createButtons();
+		enableGameGUI();
+		
+	}
+	
+	public void setUpGUI() {
+		
+	}
+	
+	public void enableGameGUI() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(800, 600);
+		frame.setSize(1000, 750);
 		frame.setVisible(true);
 	}
 	
@@ -48,7 +58,7 @@ public class GUI {
 		return null;
 	}
 	
-	public static void main(String args[]) {
+	public static void main(String args[]) throws InterruptedException {
 		GUI g = new GUI();
 	}
 }

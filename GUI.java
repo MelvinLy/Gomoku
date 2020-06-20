@@ -42,7 +42,9 @@ public class GUI {
 		JTextField portField = new JTextField("");
 		portField.setMaximumSize(new Dimension(500, 30));
 		portField.setAlignmentX(Component.CENTER_ALIGNMENT);
-		JButton connect = new JButton("Connect");
+		JLabel spacing = new JLabel(" ");
+		spacing.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JButton connect = new JButton("Connect/Host");
 		connect.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
 				if(!portField.getText().equals("")) {
@@ -58,7 +60,11 @@ public class GUI {
 						}
 					}
 					else {
-						
+						try {
+							player = new Player(ipField.getText(), Integer.parseInt(portField.getText()));
+						} catch (Exception error) {
+							System.out.println(error);
+						}
 					}
 				}
 			}
@@ -79,6 +85,7 @@ public class GUI {
 		this.panel.add(ipField);
 		this.panel.add(portDesc);
 		this.panel.add(portField);
+		this.panel.add(spacing);
 		this.panel.add(connect);
 		this.frame.add(panel);
 	}

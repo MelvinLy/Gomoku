@@ -6,12 +6,14 @@ public class Player {
 	private DatagramSocket udp;
 	private InetAddress address;
 	private int port;
+	private Board game;
 	
 	public Player(int port, String hostname) throws SocketException, UnknownHostException {
 		udp = new DatagramSocket();
 		udp.setSoTimeout(2000);
 		this.port = port;
 		address = InetAddress.getByName(hostname);
+		this.game = new Board();
 	}
 	
 	public void send(String message) throws IOException {
@@ -28,10 +30,5 @@ public class Player {
 		String out = new String(received, 0, received.length);
 		return out;
 	}
-	
-	/*
-	public static void main(String args[]) throws SocketException, UnknownHostException {
-		Player p = new Player(56789, "35.211.215.196");
-	}
-	*/
+
 }

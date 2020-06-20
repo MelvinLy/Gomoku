@@ -1,6 +1,4 @@
 import java.io.IOException;
-import java.net.*;
-import java.io.*;
 
 public class Player {
 	private Server server;
@@ -17,5 +15,14 @@ public class Player {
 		this.val = 'O';
 	}
 	
+	public char getVal() {
+		return this.val;
+	}
 	
+	public boolean isHost() {
+		if(val == 'X') {
+			return true;
+		}
+		return false;
+	}
 }

@@ -18,11 +18,21 @@ public class GUI {
 		createGridLayout();
 		createButtons();
 		enableGameGUI();
-		
 	}
 	
 	public void setUpGUI() {
 		
+	}
+	
+	public static void sleep(int x) throws InterruptedException {
+		TimeUnit.SECONDS.sleep(x);
+	}
+	
+	public void replacePanel(JPanel newPanel) {
+		frame.remove(panel);
+		this.panel = newPanel;
+		frame.add(panel);
+		frame.repaint();
 	}
 	
 	public void enableGameGUI() {

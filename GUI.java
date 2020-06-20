@@ -64,7 +64,7 @@ public class GUI {
 							success = true;
 						}
 						catch(Exception error) {
-							System.out.println(error);
+							error.printStackTrace();
 						}
 						if(success) {
 							panel.remove(connect);
@@ -75,15 +75,15 @@ public class GUI {
 											incoming = player.getServer().listen();
 											if(incoming.equals("p2Connected")) {
 												JPanel tmp = createGridLayout();
+												isTurn = false;
 												replacePanel(tmp);
-												incoming = "";
+												break;
 											}
-											break;
 										}
 										catch (IOException e) {
-											System.out.println(e);
+											e.printStackTrace();
 										}
-										
+
 									}
 								}
 							}.start();
@@ -91,24 +91,28 @@ public class GUI {
 					}
 					//Connecting player
 					else {
-						try {
-							player = new Player(ipField.getText(), Integer.parseInt(portField.getText()));
-							isTurn = true;
-							success = true;
-						}
-						catch(Exception error) {
-							System.out.println(error);
-						}
-						if(success) {
-							try {
-								player.getClient().send("p2Connected");
-								JPanel tmp = createGridLayout();
-								replacePanel(tmp);
+						new Thread() {
+							public void run() {
+								try {
+									player = new Player(ipField.getText(), Integer.parseInt(portField.getText()));
+									isTurn = true;
+									success = true;
+								}
+								catch(Exception error) {
+									error.printStackTrace();
+								}
+								if(success) {
+									try {
+										player.getClient().send("p2Connected");
+										JPanel tmp = createGridLayout();
+										replacePanel(tmp);
+									}
+									catch (Exception error) {
+										error.printStackTrace();
+									}
+								}
 							}
-							catch (Exception error) {
-								System.out.println(error);
-							}
-						}
+						}.start();
 					}
 				}
 			}
@@ -143,13 +147,16 @@ public class GUI {
 		frame.repaint();
 		if(!isServer) {
 			new Thread() {
-				public void run() {
+				public void run() {	
 					while(true) {
-						try {
-							incoming = player.getServer().listen();
-						}
-						catch (IOException error) {
-							System.out.println(error);
+						if(!isTurn) {
+							try {
+								incoming = player.getClient().receive();
+								isTurn = true;
+							}
+							catch (Exception error) {
+								error.printStackTrace();
+							}
 						}
 					}
 				}
@@ -159,14 +166,29 @@ public class GUI {
 			new Thread() {
 				public void run() {
 					while(true) {
-						try {
-							incoming = player.getClient().receive();
-							int index = Integer.parseInt(incoming);
-							
-							isTurn = true;
-						}
-						catch (Exception error) {
-							System.out.println(error);
+						if(!isTurn) {
+							try {
+								incoming = player.getServer().listen();
+								int index = Integer.parseInt(incoming);
+								buttons[index].setText(Character.toString(player.getOppVal()));
+								board.arrayRep[index / Board.SIZE][index % Board.SIZE] = player.getOppVal();
+								if(board.checkWin(player.getOppVal())) {
+									JFrame winMessage = new JFrame();
+									winMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+									winMessage.setSize(500, 500);
+									JPanel p = new JPanel();
+									JLabel l = new JLabel("You lost!");
+									p.add(l);
+									winMessage.add(p);
+									winMessage.setVisible(true);
+									gameOver = true;
+									break;
+								}
+								isTurn = true;
+							}
+							catch (Exception error) {
+								error.printStackTrace();
+							}
 						}
 					}
 				}
@@ -219,12 +241,16 @@ public class GUI {
 								}
 								try {
 									player.getClient().send(currentButton.getName());
+									System.out.println(currentButton.getName());
 								}
 								catch (Exception error) {
-									System.out.println(error);
+									error.printStackTrace();
 								}
 								isTurn = false;
 							}
+						}
+						else if(isTurn && isServer) {
+							
 						}
 					}
 				}

@@ -24,7 +24,7 @@ public class Client {
 		clientSocket.close();
 	}
 
-	
+	/*
 	public static void main(String[] args) throws Exception {
 		Client client = new Client("localhost", 56789);
 		Scanner s = new Scanner(System.in);
@@ -33,5 +33,5 @@ public class Client {
 		System.out.println(client.receive());
 		client.close();
 	}
-	
+	*/
 }

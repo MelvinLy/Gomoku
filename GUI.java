@@ -165,9 +165,18 @@ public class GUI {
 								buttons[index].setText(Character.toString(player.getOppVal()));
 								boolean cleanPlay = board.setChar(index / Board.SIZE, index % Board.SIZE, player.getOppVal());
 								if(!cleanPlay) {
-									frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+									JFrame winMessage = new JFrame();
+									winMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+									winMessage.setSize(500, 500);
+									JPanel p = new JPanel();
+									JLabel l = new JLabel("Someone cheated!");
+									p.add(l);
+									winMessage.add(p);
+									winMessage.setVisible(true);
+									gameOver = true;
+									break;
 								}
-								if(board.checkWin(player.getOppVal())) {
+								else if(board.checkWin(player.getOppVal())) {
 									JFrame winMessage = new JFrame();
 									winMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 									winMessage.setSize(500, 500);
@@ -182,7 +191,17 @@ public class GUI {
 								isTurn = true;
 							}
 							catch (Exception error) {
+								JFrame winMessage = new JFrame();
+								winMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								winMessage.setSize(500, 500);
+								JPanel p = new JPanel();
+								JLabel l = new JLabel("Host disconnected.");
+								p.add(l);
+								winMessage.add(p);
+								winMessage.setVisible(true);
+								gameOver = true;
 								error.printStackTrace();
+								break;
 							}
 						}
 					}
@@ -204,7 +223,16 @@ public class GUI {
 								buttons[index].setText(Character.toString(player.getOppVal()));
 								boolean cleanPlay = board.setChar(index / Board.SIZE, index % Board.SIZE, player.getOppVal());
 								if(!cleanPlay) {
-									frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+									JFrame winMessage = new JFrame();
+									winMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+									winMessage.setSize(500, 500);
+									JPanel p = new JPanel();
+									JLabel l = new JLabel("Someone cheated!");
+									p.add(l);
+									winMessage.add(p);
+									winMessage.setVisible(true);
+									gameOver = true;
+									break;
 								}
 								if(board.checkWin(player.getOppVal())) {
 									JFrame winMessage = new JFrame();

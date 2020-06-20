@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
@@ -70,7 +71,6 @@ public class GUI {
 							error.printStackTrace();
 						}
 						if(success) {
-							panel.remove(connect);
 							new Thread() {
 								public void run() {
 									while(true) {
@@ -163,7 +163,10 @@ public class GUI {
 								System.out.println("HEARD AS CLIENT");
 								int index = Integer.parseInt(incoming);
 								buttons[index].setText(Character.toString(player.getOppVal()));
-								board.arrayRep[index / Board.SIZE][index % Board.SIZE] = player.getOppVal();
+								boolean cleanPlay = board.setChar(index / Board.SIZE, index % Board.SIZE, player.getOppVal());
+								if(!cleanPlay) {
+									frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+								}
 								if(board.checkWin(player.getOppVal())) {
 									JFrame winMessage = new JFrame();
 									winMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -199,7 +202,10 @@ public class GUI {
 								System.out.println("HEARD AS SERVER");
 								int index = Integer.parseInt(incoming);
 								buttons[index].setText(Character.toString(player.getOppVal()));
-								board.arrayRep[index / Board.SIZE][index % Board.SIZE] = player.getOppVal();
+								boolean cleanPlay = board.setChar(index / Board.SIZE, index % Board.SIZE, player.getOppVal());
+								if(!cleanPlay) {
+									frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+								}
 								if(board.checkWin(player.getOppVal())) {
 									JFrame winMessage = new JFrame();
 									winMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -255,7 +261,7 @@ public class GUI {
 							if(currentButton.getText().equals("")) {
 								currentButton.setText(Character.toString(player.getVal()));
 								int index = Integer.parseInt(currentButton.getName());
-								board.arrayRep[index / Board.SIZE][index % Board.SIZE] = player.getVal();
+								board.setChar(index / Board.SIZE, index % Board.SIZE, player.getVal());
 								if(board.checkWin(player.getVal())) {
 									JFrame winMessage = new JFrame();
 									winMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -281,7 +287,7 @@ public class GUI {
 							if(currentButton.getText().equals("")) {
 								currentButton.setText(Character.toString(player.getVal()));
 								int index = Integer.parseInt(currentButton.getName());
-								board.arrayRep[index / Board.SIZE][index % Board.SIZE] = player.getVal();
+								board.setChar(index / Board.SIZE, index % Board.SIZE, player.getVal());
 								if(board.checkWin(player.getVal())) {
 									JFrame winMessage = new JFrame();
 									winMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

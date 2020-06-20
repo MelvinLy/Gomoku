@@ -1,7 +1,7 @@
 public class Board {
 	final static int SIZE = 19;
 	final static int WINSIZE = 5;
-	public char[][] arrayRep = new char[SIZE][SIZE];
+	private char[][] arrayRep = new char[SIZE][SIZE];
 	
 	public boolean setChar(int row, int col, char val) {
 		if(val != 'X' && val != 'O') {

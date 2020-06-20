@@ -25,4 +25,12 @@ public class Player {
 		}
 		return false;
 	}
+	
+	public Server getServer() {
+		return this.server;
+	}
+	
+	public Client getClient() {
+		return this.client;
+	}
 }

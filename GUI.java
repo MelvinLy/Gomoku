@@ -1,9 +1,7 @@
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 
@@ -14,6 +12,7 @@ public class GUI {
 	private JFrame frame;
 	private JPanel panel;
 	private JButton[] buttons;
+	private boolean isServer;
 	
 	public GUI() throws InterruptedException {
 		createFrame();
@@ -35,18 +34,33 @@ public class GUI {
 	public void setUpGUI() {
 		JLabel ipDesc = new JLabel("Host's IP (Blank if you are host)");
 		ipDesc.setAlignmentX(Component.CENTER_ALIGNMENT);
-		JTextField ipField = new JTextField();
+		JTextField ipField = new JTextField("");
 		ipField.setMaximumSize(new Dimension(500, 30));
 		ipField.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JLabel portDesc = new JLabel("Port");
 		portDesc.setAlignmentX(Component.CENTER_ALIGNMENT);
-		JTextField portField = new JTextField();
+		JTextField portField = new JTextField("");
 		portField.setMaximumSize(new Dimension(500, 30));
 		portField.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JButton connect = new JButton("Connect");
 		connect.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
-				//Code to connect
+				if(!portField.getText().equals("")) {
+					if(ipField.getText().equals("")) {
+						isServer = true;
+					}
+					if(isServer) {
+						try {
+							player = new Player(Integer.parseInt(portField.getText()));
+						}
+						catch(Exception error) {
+							System.out.println(error);
+						}
+					}
+					else {
+						
+					}
+				}
 			}
 			
 			public void mousePressed(MouseEvent e) {}
@@ -58,8 +72,6 @@ public class GUI {
 			public void mouseExited(MouseEvent e) {}
 		});
 		connect.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		
 		
 		this.panel = new JPanel();
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));

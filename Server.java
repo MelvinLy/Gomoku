@@ -4,10 +4,8 @@ import java.io.*;
 public class Server {
 	private ServerSocket serverSocket;
     private Socket connectionSocket;
-    private int port;
     
     public Server(int port) throws IOException {
-    	this.port = port;
     	serverSocket = new ServerSocket(port);
     }
     

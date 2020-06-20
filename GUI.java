@@ -38,10 +38,12 @@ public class GUI {
 		ipField.setMaximumSize(new Dimension(500, 30));
 		ipField.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JLabel portDesc = new JLabel("Port");
-		ipField.setAlignmentX(Component.CENTER_ALIGNMENT);
+		portDesc.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JTextField portField = new JTextField();
 		portField.setMaximumSize(new Dimension(500, 30));
 		portField.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JButton connect = new JButton("Connect");
+		connect.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		this.panel = new JPanel();
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
@@ -49,6 +51,7 @@ public class GUI {
 		this.panel.add(ipField);
 		this.panel.add(portDesc);
 		this.panel.add(portField);
+		this.panel.add(connect);
 		this.frame.add(panel);
 	}
 	

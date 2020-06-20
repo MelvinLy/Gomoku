@@ -52,6 +52,7 @@ public class GUI {
 						isServer = true;
 					}
 					boolean success = false;
+					//Host player
 					if(isServer) {
 						try {
 							player = new Player(Integer.parseInt(portField.getText()));
@@ -60,14 +61,22 @@ public class GUI {
 						catch(Exception error) {
 							System.out.println(error);
 						}
-						
+						if(success) {
+							JPanel tmp = createGridLayout();
+							replacePanel(tmp);
+						}
 					}
+					//Guest palyer
 					else {
 						try {
 							player = new Player(ipField.getText(), Integer.parseInt(portField.getText()));
 							success = true;
 						} catch (Exception error) {
 							System.out.println(error);
+						}
+						if(success) {
+							JPanel tmp = createGridLayout();
+							replacePanel(tmp);
 						}
 					}
 				}

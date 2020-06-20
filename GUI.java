@@ -16,10 +16,15 @@ public class GUI {
 	public GUI() throws InterruptedException {
 		createFrame();
 		setUpGUI();
-		//setUpGUI();
-		//createGridLayout();
-		//createButtons();
 		enableFrame();
+		
+		//After connections
+		
+		/*
+		JPanel tmp = createGridLayout();
+		replacePanel(tmp);
+		System.out.println(tmp.getComponentCount());
+		*/
 	}
 	
 	public static void sleep(int x) throws InterruptedException {
@@ -30,15 +35,20 @@ public class GUI {
 		JLabel ipDesc = new JLabel("Host's IP (Blank if you are host)");
 		ipDesc.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JTextField ipField = new JTextField();
+		ipField.setMaximumSize(new Dimension(500, 30));
 		ipField.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JLabel portDesc = new JLabel("Port");
 		ipField.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JTextField portField = new JTextField();
+		portField.setMaximumSize(new Dimension(500, 30));
+		portField.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		this.panel = new JPanel();
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
 		this.panel.add(ipDesc);
 		this.panel.add(ipField);
 		this.panel.add(portDesc);
+		this.panel.add(portField);
 		this.frame.add(panel);
 	}
 	
@@ -46,6 +56,8 @@ public class GUI {
 		frame.remove(panel);
 		this.panel = newPanel;
 		frame.add(panel);
+		frame.invalidate();
+		frame.validate();
 		frame.repaint();
 	}
 	
@@ -57,21 +69,21 @@ public class GUI {
 	
 	public void createFrame() {
 		this.board = new Board();
-		this.frame = new JFrame();
+		this.frame = new JFrame("Gomoku");
 	}
 	
-	public void createGridLayout() {
-		this.panel = new JPanel();
-		this.panel.setLayout(new GridLayout(Board.SIZE, Board.SIZE));
+	public JPanel createGridLayout() {
+		JPanel tmp = new JPanel();
+		tmp.setLayout(new GridLayout(Board.SIZE, Board.SIZE));
 		this.buttons = new JButton[Board.SIZE * Board.SIZE];
-		this.frame.add(panel);
-		//Add some buttons in array to be accessed
+		createButtons(tmp);
+		return tmp;
 	}
 	
-	public void createButtons() {
+	public void createButtons(JPanel tmp) {
 		for(int a = 0; a < Board.SIZE * Board.SIZE; a++) {
 			this.buttons[a] = new JButton();
-			this.panel.add(this.buttons[a]);
+			tmp.add(this.buttons[a]);
 		}
 	}
 	

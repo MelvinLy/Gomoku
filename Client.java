@@ -11,7 +11,7 @@ public class Client {
 
 	public void send(String message) throws Exception {
 		DataOutputStream outServer = new DataOutputStream(clientSocket.getOutputStream());
-		outServer.writeBytes(message + "\n");
+		outServer.writeBytes(message + '\n');
 	}
 
 	public String receive() throws Exception {
@@ -27,8 +27,12 @@ public class Client {
 	/*
 	public static void main(String[] args) throws Exception {
 		Client client = new Client("localhost", 56789);
-		Scanner s = new Scanner(System.in);
-		String message = s.nextLine();
+		//Scanner s = new Scanner(System.in);
+		String message = "hello\n";
+		client.send(message);
+		System.out.println(client.receive());
+		message = "there\n";
+		client = new Client("localhost", 56789);
 		client.send(message);
 		System.out.println(client.receive());
 		client.close();

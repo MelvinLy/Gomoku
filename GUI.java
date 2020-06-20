@@ -17,6 +17,8 @@ public class GUI {
 	private boolean success;
 	private boolean isTurn;
 	private boolean gameOver = false;
+	private String ip;
+	private int port;
 
 	public GUI() throws InterruptedException {
 		createFrame();
@@ -62,6 +64,7 @@ public class GUI {
 							player = new Player(Integer.parseInt(portField.getText()));
 							isTurn = false;
 							success = true;
+							port = Integer.parseInt(portField.getText());
 						}
 						catch(Exception error) {
 							error.printStackTrace();
@@ -97,6 +100,8 @@ public class GUI {
 									player = new Player(ipField.getText(), Integer.parseInt(portField.getText()));
 									isTurn = true;
 									success = true;
+									ip = ipField.getText();
+									port = Integer.parseInt(portField.getText());
 								}
 								catch(Exception error) {
 									error.printStackTrace();
@@ -240,6 +245,7 @@ public class GUI {
 									gameOver = true;
 								}
 								try {
+									player = new Player(ip, port);
 									player.getClient().send(currentButton.getName());
 									System.out.println(currentButton.getName());
 								}

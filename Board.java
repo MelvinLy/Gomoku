@@ -75,7 +75,7 @@ public class Board {
 	
 	public boolean leftWin(int row, int col, char val) {
 		for(int a = 0; a < WINSIZE; a++) {
-			if(arrayRep[row][col - 1] != val) {
+			if(arrayRep[row][col - a] != val) {
 				return false;
 			}
 		}

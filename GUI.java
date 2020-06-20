@@ -13,9 +13,9 @@ public class GUI {
 	private JPanel panel;
 	private JButton[] buttons;
 	private boolean isServer;
-	private boolean isTurn;
 	private String incoming;
 	private boolean success;
+	private boolean isTurn;
 	private boolean gameOver = false;
 
 	public GUI() throws InterruptedException {
@@ -76,13 +76,14 @@ public class GUI {
 											if(incoming.equals("p2Connected")) {
 												JPanel tmp = createGridLayout();
 												replacePanel(tmp);
-												break;
+												incoming = "";
 											}
-											System.out.println(incoming);
+											break;
 										}
 										catch (IOException e) {
 											System.out.println(e);
 										}
+										
 									}
 								}
 							}.start();
@@ -140,6 +141,37 @@ public class GUI {
 		frame.invalidate();
 		frame.validate();
 		frame.repaint();
+		if(!isServer) {
+			new Thread() {
+				public void run() {
+					while(true) {
+						try {
+							incoming = player.getServer().listen();
+						}
+						catch (IOException error) {
+							System.out.println(error);
+						}
+					}
+				}
+			}.start();
+		}
+		else {
+			new Thread() {
+				public void run() {
+					while(true) {
+						try {
+							incoming = player.getClient().receive();
+							int index = Integer.parseInt(incoming);
+							
+							isTurn = true;
+						}
+						catch (Exception error) {
+							System.out.println(error);
+						}
+					}
+				}
+			}.start();
+		}
 	}
 
 	public void enableFrame() {
@@ -169,41 +201,30 @@ public class GUI {
 				public void mouseClicked(MouseEvent e) {
 					JButton currentButton = (JButton) e.getSource();
 					if(!gameOver) {
-						if(!isServer) {
-							if(isTurn) {
-								if(currentButton.getText().equals("")) {
-									currentButton.setText(Character.toString(player.getVal()));
-									int index = Integer.parseInt(currentButton.getName());
-									board.canGoDown(index / Board.SIZE, index % Board.SIZE);
-									if(board.checkWin(player.getVal())) {
-										JFrame winMessage = new JFrame();
-										winMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-										winMessage.setSize(500, 500);
-										JPanel p = new JPanel();
-										JLabel l = new JLabel("You won!");
-										p.add(l);
-										winMessage.add(p);
-										winMessage.setVisible(true);
-										gameOver = true;
-									}
-									try {
-										player.getClient().send(currentButton.getName());
-									}
-									catch (Exception error) {
-										System.out.println(error);
-									}
-									try {
-										incoming = player.getClient().receive();
-									}
-									catch (Exception error) {
-										System.out.println(error);
-									}
-									isTurn = false;
+						if(isTurn && !isServer) {
+							if(currentButton.getText().equals("")) {
+								currentButton.setText(Character.toString(player.getVal()));
+								int index = Integer.parseInt(currentButton.getName());
+								board.arrayRep[index / Board.SIZE][index % Board.SIZE] = player.getVal();
+								if(board.checkWin(player.getVal())) {
+									JFrame winMessage = new JFrame();
+									winMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+									winMessage.setSize(500, 500);
+									JPanel p = new JPanel();
+									JLabel l = new JLabel("You won!");
+									p.add(l);
+									winMessage.add(p);
+									winMessage.setVisible(true);
+									gameOver = true;
 								}
+								try {
+									player.getClient().send(currentButton.getName());
+								}
+								catch (Exception error) {
+									System.out.println(error);
+								}
+								isTurn = false;
 							}
-						}
-						else {
-
 						}
 					}
 				}

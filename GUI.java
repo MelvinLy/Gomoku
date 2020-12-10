@@ -25,7 +25,6 @@ public class GUI {
 		createFrame();
 		setUpGUI();
 		enableFrame();
-
 		//After connections
 
 		/*
@@ -163,6 +162,8 @@ public class GUI {
 								System.out.println("HEARD AS CLIENT");
 								int index = Integer.parseInt(incoming);
 								buttons[index].setText(Character.toString(player.getOppVal()));
+								resetButtonColours();
+								buttons[index].setBackground(Color.GREEN);
 								boolean cleanPlay = board.setChar(index / Board.SIZE, index % Board.SIZE, player.getOppVal());
 								if(!cleanPlay) {
 									JFrame winMessage = new JFrame();
@@ -221,6 +222,8 @@ public class GUI {
 								System.out.println("HEARD AS SERVER");
 								int index = Integer.parseInt(incoming);
 								buttons[index].setText(Character.toString(player.getOppVal()));
+								resetButtonColours();
+								buttons[index].setBackground(Color.GREEN);
 								boolean cleanPlay = board.setChar(index / Board.SIZE, index % Board.SIZE, player.getOppVal());
 								if(!cleanPlay) {
 									JFrame winMessage = new JFrame();
@@ -287,8 +290,10 @@ public class GUI {
 					if(!gameOver) {
 						if(isTurn && !isServer && !gameOver) {
 							if(currentButton.getText().equals("")) {
-								currentButton.setText(Character.toString(player.getVal()));
 								int index = Integer.parseInt(currentButton.getName());
+								currentButton.setText(Character.toString(player.getVal()));
+								resetButtonColours();
+								buttons[index].setBackground(Color.GREEN);
 								board.setChar(index / Board.SIZE, index % Board.SIZE, player.getVal());
 								if(board.checkWin(player.getVal())) {
 									JFrame winMessage = new JFrame();
@@ -313,8 +318,10 @@ public class GUI {
 						}
 						else if(isTurn && isServer && !gameOver) {
 							if(currentButton.getText().equals("")) {
-								currentButton.setText(Character.toString(player.getVal()));
 								int index = Integer.parseInt(currentButton.getName());
+								currentButton.setText(Character.toString(player.getVal()));
+								resetButtonColours();
+								buttons[index].setBackground(Color.GREEN);
 								board.setChar(index / Board.SIZE, index % Board.SIZE, player.getVal());
 								if(board.checkWin(player.getVal())) {
 									JFrame winMessage = new JFrame();
@@ -349,13 +356,21 @@ public class GUI {
 			});
 			tmp.add(this.buttons[a]);
 		}
+		this.resetButtonColours();
 	}
-
+	
 	public JButton getButton(int row, int col) {
 		if(row < Board.SIZE && row >= 0 && col < Board.SIZE && col >= 0) {
 			return buttons[row * Board.SIZE + col];
 		}
 		return null;
+	}
+	
+	public void resetButtonColours() {
+		for(int a = 0; a < this.buttons.length; a++) {
+			JButton currentButton = this.buttons[a];
+			currentButton.setBackground(Color.GRAY);
+		}
 	}
 
 }
